@@ -1,0 +1,66 @@
+comment: Add Mindey to my friends list
+update: |
+
+        PREFIX s: <http://samsquire.com/test#>
+        insert data
+        {
+                s:Mindey s:isA s:person.
+                s:Mindey s:has s:ideas.
+        }
+---
+comment: What does Mindey have?
+query: |
+
+        PREFIX s: <http://samsquire.com/test#>
+        select ?a where {
+                s:Mindey s:has ?a
+        }
+---
+update: |
+        prefix d: <http://learningsparql.com/ns/data#> 
+        prefix dm: <http://learningsparql.com/ns/demo#> 
+        prefix owl: <http://www.w3.org/2002/07/owl#> 
+        prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+        prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+        insert data {
+                dm:Room rdfs:subClassOf owl:Thing .
+                dm:Building rdfs:subClassOf owl:Thing .
+                dm:Furniture rdfs:subClassOf owl:Thing .
+                dm:Chair rdfs:subClassOf dm:Furniture .
+                dm:Desk rdfs:subClassOf dm:Furniture .
+
+                dm:locatedIn a owl:TransitiveProperty.
+
+                d:building100 rdf:type dm:Building .
+                d:building200 rdf:type dm:Building .
+                d:room101 rdf:type dm:Room ; dm:locatedIn d:building100 .
+                d:room102 rdf:type dm:Room ; dm:locatedIn d:building100 .
+                d:room201 rdf:type dm:Room ; dm:locatedIn d:building200 .
+                d:room202 rdf:type dm:Room ; dm:locatedIn d:building200 .
+
+                d:chair15 rdf:type dm:Chair ; dm:locatedIn d:room101 .
+                d:chair23 rdf:type dm:Chair ; dm:locatedIn d:room101 .
+                d:chair35 rdf:type dm:Chair ; dm:locatedIn d:room202 .
+                d:desk22 rdf:type dm:Desk ; dm:locatedIn d:room101 .
+                d:desk59 rdf:type dm:Desk ; dm:locatedIn d:room202 .
+        }
+
+---
+update: |
+        PREFIX dm: <http://learningsparql.com/ns/demo#>
+        PREFIX d: <http://learningsparql.com/ns/data#>
+        PREFIX s: <http://samsquire.com/test>
+        insert data
+        {
+           s:Samuel s:isA s:programmer.
+        }
+---
+query: |
+        PREFIX dm: <http://learningsparql.com/ns/demo#>
+        PREFIX d: <http://learningsparql.com/ns/data#>
+        SELECT ?furniture
+        WHERE
+        {
+          ?furniture a dm:Furniture .
+          ?furniture dm:locatedIn d:building100 .
+        }
