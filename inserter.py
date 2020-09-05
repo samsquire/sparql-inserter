@@ -5,6 +5,7 @@ from argparse import ArgumentParser
 
 parser = ArgumentParser()
 parser.add_argument("--file")
+parser.add_argument("--show-updates", action="store_true")
 args = parser.parse_args()
 inputfile = open(args.file, "r")
 
@@ -27,5 +28,5 @@ for document in yaml.safe_load_all(inputfile):
     command = get_command(kind)
     process = Popen(command, stdout=PIPE)
     output = process.stdout.read().decode("utf-8")
-    if kind == "query": 
+    if kind == "query" or args.show_updates: 
         print(output)
